@@ -2,8 +2,7 @@
 #define _NDXSEQ_
 
 #include <vector>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "iseq.h"
 
@@ -34,13 +33,13 @@ public:
 };
 
 template <typename T>
-struct DummyArr : boost::enable_shared_from_this<DummyArr<T> > {
+struct DummyArr : std::enable_shared_from_this<DummyArr<T> > {
 private:
   typedef ISeq<T> seq_t;
   typedef typename seq_t::ref seq_ref;
 
 public:
-  typedef boost::shared_ptr<DummyArr<T> > ref;
+  typedef std::shared_ptr<DummyArr<T> > ref;
 
   static ref make()
   { return ref(new DummyArr()); }

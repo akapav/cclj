@@ -1,28 +1,26 @@
 #ifndef _LAZY_
 #define _LAZY_
 
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/function.hpp>
+#include <memory>
+#include <thread>
 
 #include "iseq.h"
 
 template <typename T>
-struct Lazy : boost::enable_shared_from_this<Lazy<T> >, ISeq<T> {
+struct Lazy : std::enable_shared_from_this<Lazy<T> >, ISeq<T> {
 private:
   typedef ISeq<T> seq_t;
   typedef typename seq_t::ref seq_ref;
-  typedef boost::function0<seq_ref> fn;
+  typedef std::function<seq_ref()> fn;
 
 public:
-  typedef boost::shared_ptr<Lazy<T> > ref;
+  typedef std::shared_ptr<Lazy<T> > ref;
 
   static ref make(const fn f)
   { return ref(new Lazy(f)); }
 
   seq_ref seq() const
-  { return boost::dynamic_pointer_cast<Lazy<T>, ISeq<T> >(self()); }
+  { return std::dynamic_pointer_cast<Lazy<T>, ISeq<T> >(self()); }
 
   T first() const {
     ensure_cached();
@@ -42,14 +40,14 @@ private:
   { return const_cast<Lazy<T>*>(this)->shared_from_this(); }
 
   void ensure_cached() const {
-    boost::unique_lock<boost::mutex> lck(mtx_);
+    std::unique_lock<std::mutex> lck(mtx_);
     if(seq_) return;
     seq_ = f_();
   }
 
   fn f_;
   mutable seq_ref seq_;
-  mutable boost::mutex mtx_;
+  mutable std::mutex mtx_;
 };
 
 template <typename Fn>

@@ -1,12 +1,12 @@
 #ifndef _ISEQ_
 #define _ISEQ_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 template <typename T>
 struct ISeq {
   typedef T element_type;
-  typedef boost::shared_ptr<ISeq<T> > ref;
+  typedef std::shared_ptr<ISeq<T> > ref;
 
   static ref nil()
   { return ref(static_cast<ISeq<T>*>(0)); }

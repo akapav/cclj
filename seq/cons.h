@@ -1,18 +1,17 @@
 #ifndef _CONS_
 #define _CONS_
 
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "iseq.h"
 
 template <typename T>
-struct Cons : boost::enable_shared_from_this<Cons<T> >, ISeq<T> {
+struct Cons : std::enable_shared_from_this<Cons<T> >, ISeq<T> {
 private:
   typedef ISeq<T> seq_t;
   typedef typename seq_t::ref seq_ref;
 
 public:
-  typedef boost::shared_ptr<Cons<T> > ref;
+  typedef std::shared_ptr<Cons<T> > ref;
 
   static ref make(T car, seq_ref cdr)
   { return ref(new Cons(car, cdr)); }
@@ -26,7 +25,7 @@ private:
   Cons(T car, seq_ref cdr): car_(car), cdr_(cdr) {}
 
   seq_ref seq() const
-  { return boost::dynamic_pointer_cast<Cons<T>, ISeq<T> >(self()); }
+  { return std::dynamic_pointer_cast<Cons<T>, ISeq<T> >(self()); }
 
   ref self() const
   { return const_cast<Cons<T>*>(this)->shared_from_this(); }
