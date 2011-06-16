@@ -80,6 +80,8 @@ int main() {
   dump(into(nil<int>(), foo2));
 
   cout << "interleave\n";
-  dump(interleave(foo1, foo2));
+  auto odds = filter(oddp, N0);
+  auto evens = remove(oddp, N0);
+  dump(interpose(1000, take(10, interleave(evens, odds))));
   return 0;
 }

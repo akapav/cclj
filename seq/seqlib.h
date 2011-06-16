@@ -108,15 +108,20 @@ auto into(Seq dest, Seq src) -> typename ISeq<decltype(src->first())>::ref {
   return into(dest, src->rest())->conj(src->first());
 }
 
-//suboptimal impl, used just as a test for the rest of the lib
 template <typename Seq>
 Seq interleave(Seq ls, Seq rs) {
   typedef decltype(ls->first()) T;
-  return reduce([](Seq ls, Seq rs) { return concat(ls, rs); },
-		nil<T>(),
-		zip([](T l, T r) { return cons(l, cons_nil(r)); }, ls, rs));
+  if(ls->nilp() || rs->nilp()) return nil<T>();
+  return lazy_seq(cons(ls->first(),
+		       cons(rs->first(),
+			    (interleave(ls->rest(), rs->rest())))));
 }
 
+template <typename T>
+typename ISeq<T>::ref interpose(T sep, typename ISeq<T>::ref seq) {
+  if(seq->nilp()) return nil<T>();
+  return lazy_seq(cons(seq->first(), interleave(repeat(sep), seq->rest())));
+}
 
 //todo: needs complete redesign
 //template <typename T, typename It>
