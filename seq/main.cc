@@ -79,5 +79,7 @@ int main() {
   dump(into(sq3, foo2));
   dump(into(nil<int>(), foo2));
 
+  cout << "interleave\n";
+  dump(interleave(foo1, foo2));
   return 0;
 }
