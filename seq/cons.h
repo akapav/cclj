@@ -39,6 +39,9 @@ typename ISeq<T>::ref cons(T car, typename ISeq<T>::ref cdr)
 { return Cons<T>::make(car, cdr); }
 
 template <typename T>
+typename ISeq<T>::ref nil();
+
+template <typename T>
 typename ISeq<T>::ref cons_nil(T car)
 { return cons(car, nil<T>()); }
 

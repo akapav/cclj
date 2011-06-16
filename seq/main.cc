@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "cons.h"
+#include "nil.h"
 #include "lazy.h"
 #include "seqlib.h"
 #include "ndxseq.h"
@@ -59,6 +60,24 @@ int main() {
   //ISeq<int>::ref fibo =
   //cons(0, cons(1, lazy_seq([&]() { return zip(plus<int>, fibo, fibo->rest()); })));
   //dump(take(10, fibo));
+
+  cout << "some\n";
+  auto foo1 = cons(3, cons(2, cons_nil(1)));
+  auto foo2 = cons(6, cons(2, cons_nil(0)));
+  auto foo3 = nil<int>();
+  cout << somep(oddp, foo1) << endl;
+  cout << somep(oddp, foo2) << endl;
+  cout << somep(oddp, foo3) << endl;
+  cout << somep(oddp, N0) << endl;
+
+  cout << "range\n";
+  cout << everyp(oddp, (range(1, 10, 2))) << endl;
+
+  cout << "into\n";
+  dump(into(foo1, foo2));
+  cout << "into2\n";
+  dump(into(sq3, foo2));
+  dump(into(nil<int>(), foo2));
 
   return 0;
 }

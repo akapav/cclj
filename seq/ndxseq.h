@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "iseq.h"
+#include "nil.h"
 
 template <typename T, typename Seq>
 struct NdxSeq : ISeq<T> {
