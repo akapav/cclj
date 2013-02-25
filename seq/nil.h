@@ -1,6 +1,7 @@
 #ifndef _NIL_
 #define _NIL_
 
+#include <mutex>
 #include <memory>
 #include <thread>
 
